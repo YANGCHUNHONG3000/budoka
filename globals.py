@@ -143,15 +143,6 @@ game = {
   'enemies': []
 }
 
-# Curses screen
-screen = curses.initscr()
-screen.nodelay(1)
-curses.noecho()
-curses.raw()
-screen.keypad(1)
-curses.start_color()
-curses.use_default_colors()
-
 # Read key from keyboard
 def read_key():
   ch = -1
@@ -164,6 +155,34 @@ def message(text):
   screen.clrtoeol()
   render_screen()
   read_key()
+
+# Character selection menu
+menu = 'Pick up your style:\n\n'
+menu += ' a) Aikido   (Tripple attack, always hit)\n'
+menu += ' j) Judo     (Defense +1, maximum damage)\n'
+menu += ' k) Karate   (Attack +1, max damage)\n'
+menu += ' n) Ninjutsu (Defense +1, always hit)\n'
+menu += ' s) Sumo     (Attack +1, Defense+1, HP +5)\n'
+menu += ' t) Taido    (Double attack, Attack +1)\n\n'
+menu += 'Your choice > '
+
+# Pick up your style
+try:
+  game['player']['style'] = ENEMIES[input(menu).upper()]
+  bonuses = BONUSES[game['player']['style']]
+  game['player']['hp'] += bonuses['hp']
+  game['player']['attack'] += bonuses['attack']
+  game['player']['defense'] += bonuses['defense']
+except: pass
+
+# Curses screen
+screen = curses.initscr()
+screen.nodelay(1)
+curses.noecho()
+curses.raw()
+screen.keypad(1)
+curses.start_color()
+curses.use_default_colors()
 
 # Packages
 from colors import *
