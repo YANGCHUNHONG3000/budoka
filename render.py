@@ -98,7 +98,11 @@ def render_stats():
   defense = game['player']['defense']
   style = game['player']['style']
   rank = RANKS[str(game['player']['level'])]['degree']
-  screen.addstr(23, 1, f'Level: {level}  HP: {hp}  Attack: {attack}  Defense: {defense}        {style} {rank} practitioner')
+  status = 'Student' if game['player']['level'] < 8 else 'Master'
+  exp = game['player']['experience']
+  up = game['player']['level'] ** 2 * 10
+  screen.addstr(23, 1, f'Level: {level}  HP: {hp}  XP: {exp}/{up}  Attack: {attack}  Defense: {defense} -> {rank} {style} {status}')
+  screen.clrtoeol()
 
 # Render screen
 def render_screen():

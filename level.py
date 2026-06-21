@@ -26,13 +26,13 @@ def fill_dungeon():
 
   # Place enemies
   tiles = get_tiles([FLOOR])
-  for i in range(10):
+  for i in range(roll_dice(5, int(game['level']/2)+3)):
     pos = choice(tiles)
     if pos == player_pos: continue
     hp = game['level']*2
     attack = game['level']
     defense = game['level']
-    level = randrange(game['level'], game['level']+3)
+    level = randrange(game['level'], game['level']+2)
     style = choice(list(ENEMIES.keys()))
     enemy = create_enemy(pos[0], pos[1], hp, attack, defense, level, style)
     game['enemies'].append(enemy)

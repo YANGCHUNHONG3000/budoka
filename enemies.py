@@ -29,14 +29,14 @@ def player_hit(enemy):
   enemy_chance = enemy['defense'] * enemy['level']
   hit_chance = player_chance + roll_dice(1, 6) >= enemy_chance + roll_dice(1, 6)
   if hit_chance:
-    damage = game['player']['attack'] * game['player']['level'] + roll_dice(1, 6) - enemy['defense']
+    damage = roll_dice(1, game['player']['attack'] * game['player']['level']) + roll_dice(1, 6) - enemy['defense']
     enemy['hp'] -= damage
     enemy['hp'] = max(0, enemy['hp'])
     if not enemy['hp']:
       enemy['style'] = game['dungeon'][enemy['position']['y']][enemy['position']['x']]
       message(f'You defeated {name}')
       game['player']['experience'] += enemy['attack'] * enemy['level']
-      if game['player']['experience'] >= game['player']['level'] * 10:
+      if game['player']['experience'] >= game['player']['level'] ** 2 * 10:
         game['player']['level'] += 1
         game['player']['attack'] += 1
         game['player']['defense'] += 1
@@ -56,7 +56,7 @@ def enemy_hit(enemy):
   player_chance = game['player']['defense'] * game['player']['level']
   hit_chance = enemy_chance + roll_dice(1, 6) >= player_chance + roll_dice(1, 6)
   if hit_chance:
-    damage = enemy['attack'] * enemy['level'] + roll_dice(1, 6) - game['player']['defense']
+    damage = roll_dice(1, enemy['attack'] * enemy['level'] + roll_dice(1, 6)) + roll_dice(1, 6) - game['player']['defense']
     game['player']['hp'] -= damage
     #game['player']['hp'] = max(0, game['player']['hp'])
     
