@@ -33,7 +33,7 @@ def fill_dungeon():
     attack = game['level']
     defense = game['level']
     level = randrange(game['level'], game['level']+3)
-    style = choice(list(EMEMIES.keys()))
+    style = choice(list(ENEMIES.keys()))
     enemy = create_enemy(pos[0], pos[1], hp, attack, defense, level, style)
     game['enemies'].append(enemy)
 

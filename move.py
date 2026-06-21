@@ -3,6 +3,10 @@ from globals import *
 
 # Move player
 def move(ch):
+  # clear previous message
+  screen.move(0, 0)
+  screen.clrtoeol()
+
   # Current player position
   player_y = game['player']['y']
   player_x = game['player']['x']
@@ -13,32 +17,44 @@ def move(ch):
   # Motion control
   if ch == ord('h'):
     if game['dungeon'][player_y][player_x-1] not in obstacles:
-      player_x -= 1
+      enemy = encounter(player_y, player_x-1)
+      if enemy is not None: player_hit(enemy)
+      else: player_x -= 1
   elif ch == ord('j'):
     if game['dungeon'][player_y+1][player_x] not in obstacles:
-      player_y += 1
+      enemy = encounter(player_y+1, player_x)
+      if enemy is not None: player_hit(enemy)
+      else: player_y += 1
   elif ch == ord('k'):
     if game['dungeon'][player_y-1][player_x] not in obstacles:
-      player_y -= 1
+      enemy = encounter(player_y-1, player_x)
+      if enemy is not None: player_hit(enemy)
+      else: player_y -= 1
   elif ch == ord('l'):
     if game['dungeon'][player_y][player_x+1] not in obstacles:
-      player_x += 1
+      enemy = encounter(player_y, player_x+1)
+      if enemy is not None: player_hit(enemy)
+      else: player_x += 1
   elif ch == ord('y'):
     if game['dungeon'][player_y-1][player_x-1] not in obstacles:
-      player_x -= 1
-      player_y -= 1
+      enemy = encounter(player_y-1, player_x-1)
+      if enemy is not None: player_hit(enemy)
+      else: player_x -= 1; player_y -= 1
   elif ch == ord('b'):
     if game['dungeon'][player_y+1][player_x-1] not in obstacles:
-      player_x -=1
-      player_y += 1
+      enemy = encounter(player_y+1, player_x-1)
+      if enemy is not None: player_hit(enemy)
+      else: player_x -=1; player_y += 1
   if ch == ord('u'):
     if game['dungeon'][player_y-1][player_x+1] not in obstacles:
-      player_x += 1
-      player_y -= 1
+      enemy = encounter(player_y-1, player_x+1)
+      if enemy is not None: player_hit(enemy)
+      else: player_x += 1; player_y -= 1
   if ch == ord('n'):
     if game['dungeon'][player_y+1][player_x+1] not in obstacles:
-      player_x += 1
-      player_y += 1
+      enemy = encounter(player_y+1, player_x+1)
+      if enemy is not None: player_hit(enemy)
+      else: player_x += 1; player_y += 1
   
   # Update player position
   game['player']['y'] = player_y
@@ -78,8 +94,8 @@ def run(ch):
     move(ord(ch.lower()))
     player_y = game['player']['y']
     player_x = game['player']['x']
-    if game['dungeon'][player_y][player_x] in [DOOR, STAIRS]:
-      break
+    if game['dungeon'][player_y][player_x] in [DOOR, STAIRS]: break
+    if encounter(player_y+y, player_x+x): break
 
 # Whether a given cell is blocked
 def blocked(row, col):
@@ -89,10 +105,8 @@ def blocked(row, col):
       return True
   
   # Blocked by dungeon
-  if game['dungeon'][row][col] not in [V_WALL, H_WALL, EMPTY]:
-    return False
-  else:
-    return True
+  if game['dungeon'][row][col] == FLOOR: return False
+  else: return True
 
 # Get distance between two cells
 def distance_to(py, px, ey, ex):
@@ -137,6 +151,7 @@ def move_towards(py, px, ey, ex, enemy):
 # Aggravate monster
 def move_all_enemies():
   for enemy in game['enemies']:
+    if enemy['hp'] == 0: continue
     player_y = game['player']['y']
     player_x = game['player']['x']
     if distance_to(player_y, player_x, enemy['position']['y'], enemy['position']['x']) >= 2:
@@ -147,6 +162,7 @@ def move_local_enemies():
   player_y = game['player']['y']
   player_x = game['player']['x']
   for enemy in game['enemies']:
+    if enemy['hp'] == 0: continue
     enemy_y = enemy['position']['y']
     enemy_x = enemy['position']['x']
     if [enemy_y, enemy_x] in game['visited_tiles']:

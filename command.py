@@ -1,12 +1,6 @@
 # Packages
 from globals import *
 
-# Read key from keyboard
-def read_key():
-  ch = -1
-  while ch == -1: ch = screen.getch()
-  return ch
-
 # Process user command
 def parse_command():
   ch = read_key()

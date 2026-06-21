@@ -1,13 +1,6 @@
 # Packages
 from globals import *
 
-# Print game level
-def print_dungeon():
-  for row in range(ROWS):
-    for col in range(COLS):
-      print(game['dungeon'][row][col], end='')
-    print()
-
 # Render single character in dungeon
 def render_char(row, col):
   if [row, col] not in game['visited_tiles']: return
@@ -26,6 +19,7 @@ def render_enemies():
   player_y = game['player']['y']
   player_x = game['player']['x']
   for enemy in game['enemies']:
+    if enemy['hp'] == 0: continue
     enemy_y = enemy['position']['y']
     enemy_x = enemy['position']['x']
     if [enemy_y, enemy_x] in game['visited_tiles']:
@@ -33,17 +27,18 @@ def render_enemies():
         if game['dungeon'][enemy_y][enemy_x] == FLOOR:
           if current_room(player_y, player_x, room):
             if current_room(enemy_y, enemy_x, room):
-              screen.addch(enemy_y, enemy_x, enemy['style'], paint(  RANKS[ str(enemy['level']) ]['belt']  ))
+              screen.addch(enemy_y, enemy_x, enemy['style'], paint(RANKS[str(enemy['level'])]['belt']))
         elif game['dungeon'][enemy_y][enemy_x] in [PASSAGE, DOOR]:
           if abs(enemy_y-player_y) <= 1 and abs(enemy_x-player_x) <= 1:
-            screen.addch(enemy_y, enemy_x, enemy['style'], paint('white'))
+            screen.addch(enemy_y, enemy_x, enemy['style'], paint(RANKS[str(enemy['level'])]['belt']))
 
 # Render enemies
 def render_all_enemies():
   for enemy in game['enemies']:
+    if enemy['hp'] == 0: continue
     enemy_y = enemy['position']['y']
     enemy_x = enemy['position']['x']
-    screen.addch(enemy_y, enemy_x, enemy['style'], paint('white'))
+    screen.addch(enemy_y, enemy_x, enemy['style'], paint(RANKS[str(enemy['level'])]['belt']))
 
 # Render player
 def render_player():
@@ -76,7 +71,6 @@ def render_dungeon():
   # Avoid glitches
   curses.curs_set(0)
   screen.move(0, 0)
-  screen.clrtoeol()
   
   # Current player position
   player_y = game['player']['y']

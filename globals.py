@@ -39,7 +39,7 @@ STAIRS = '%'
 PLAYER = '@'
 PASSAGE = '#'
 
-EMEMIES = {
+ENEMIES = {
  'A': 'Aikido',
  'B': 'Boxing',
  'C': 'Capoeira',
@@ -103,12 +103,24 @@ screen.keypad(1)
 curses.start_color()
 curses.use_default_colors()
 
-# Functions
+# Read key from keyboard
+def read_key():
+  ch = -1
+  while ch == -1: ch = screen.getch()
+  return ch
+
+# Print message
+def message(text):
+  screen.addstr(0, 0, text)
+  screen.clrtoeol()
+  render_player()
+
+# Packages
 from colors import *
 from dice import *
 from room import *
 from enemies import *
 from level import *
+from render import *
 from move import *
 from command import *
-from render import *
