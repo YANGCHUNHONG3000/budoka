@@ -102,7 +102,7 @@ def render_stats():
   defense = game['player']['defense']
   style = game['player']['style']
   rank = RANKS[str(game['player']['level'])]['degree']
-  status = 'Deshi' if game['player']['level'] < 8 else 'Sensei'
+  status = 'deshi' if game['player']['level'] < 8 else 'sensei'
   exp = game['player']['experience']
   up = game['player']['level'] ** 2 * 10
   chased = 'chased' if game['player']['chased'] else 'calm'
