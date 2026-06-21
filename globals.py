@@ -41,17 +41,62 @@ PASSAGE = '#'
 
 ENEMIES = {
  'A': 'Aikido',
- 'B': 'Boxing',
- 'C': 'Capoeira',
- 'G': 'Grappling',
- 'H': 'Hapkido',
  'J': 'Judo',
  'K': 'Karate',
- 'M': 'Muay Thai',
- 'R': 'Russian style',
+ 'N': 'Ninjutsu',
  'S': 'Sumo',
- 'T': 'Taekwondo',
- 'W': 'Wing Chun',
+ 'T': 'Taido',
+}
+
+BONUSES = {
+  'Aikido': {
+    'hp': 0,
+    'attack': 0,
+    'defense': 0,
+    'max_damage': False,
+    'always_hit': True,
+    'multiple_attacks': 3
+  },
+  'Judo': {
+    'hp': 0,
+    'attack': 0,
+    'defense': 1,
+    'max_damage': True,
+    'always_hit': False,
+    'multiple_attacks': 1
+  },
+  'Karate': {
+    'hp': 0,
+    'attack': 1,
+    'defense': 0,
+    'max_damage': True,
+    'always_hit': False,
+    'multiple_attacks': 1
+  },
+  'Ninjutsu': {
+    'hp': 0,
+    'attack': 0,
+    'defense': 1,
+    'max_damage': False,
+    'always_hit': True,
+    'multiple_attacks': 1
+  },
+  'Sumo': {
+    'hp': 5,
+    'attack': 1,
+    'defense': 1,
+    'max_damage': False,
+    'always_hit': False,
+    'multiple_attacks': 1
+  },
+  'Taido': {
+    'hp': 0,
+    'attack': 1,
+    'defense': 0,
+    'max_damage': False,
+    'always_hit': False,
+    'multiple_attacks': 2
+  }
 }
 
 RANKS = {
@@ -81,10 +126,12 @@ game = {
   'rooms': [],
   'visited_tiles': [],
   'level': 1,
+  'steps': 0,
   'player': {
     'y': 0,
     'x': 0,
-    'hp': 2,
+    'hp': 10,
+    'max_hp': 10,
     'attack': 1,
     'defense': 1,
     'level': 1,

@@ -27,10 +27,10 @@ def render_enemies():
         if game['dungeon'][enemy_y][enemy_x] == FLOOR:
           if current_room(player_y, player_x, room):
             if current_room(enemy_y, enemy_x, room):
-              screen.addch(enemy_y, enemy_x, enemy['style'], paint(RANKS[str(enemy['level'])]['belt']))
+              screen.addch(enemy_y, enemy_x, enemy['name'], paint(RANKS[str(enemy['level'])]['belt']))
         elif game['dungeon'][enemy_y][enemy_x] in [PASSAGE, DOOR]:
           if abs(enemy_y-player_y) <= 1 and abs(enemy_x-player_x) <= 1:
-            screen.addch(enemy_y, enemy_x, enemy['style'], paint(RANKS[str(enemy['level'])]['belt']))
+            screen.addch(enemy_y, enemy_x, enemy['name'], paint(RANKS[str(enemy['level'])]['belt']))
 
 # Render enemies
 def render_all_enemies():
@@ -38,7 +38,7 @@ def render_all_enemies():
     if enemy['hp'] == 0: continue
     enemy_y = enemy['position']['y']
     enemy_x = enemy['position']['x']
-    screen.addch(enemy_y, enemy_x, enemy['style'], paint(RANKS[str(enemy['level'])]['belt']))
+    screen.addch(enemy_y, enemy_x, enemy['name'], paint(RANKS[str(enemy['level'])]['belt']))
 
 # Render player
 def render_player():
@@ -94,21 +94,28 @@ def render_dungeon():
 def render_stats():
   level = game['level']
   hp = game['player']['hp']
+  max_hp = game['player']['max_hp']
   attack = game['player']['attack']
   defense = game['player']['defense']
   style = game['player']['style']
   rank = RANKS[str(game['player']['level'])]['degree']
-  status = 'Student' if game['player']['level'] < 8 else 'Master'
+  status = 'Deshi' if game['player']['level'] < 8 else 'Sensei'
   exp = game['player']['experience']
   up = game['player']['level'] ** 2 * 10
-  screen.addstr(23, 1, f'Level: {level}  HP: {hp}  XP: {exp}/{up}  Attack: {attack}  Defense: {defense} -> {rank} {style} {status}')
+  screen.addstr(23, 1, f'Level: {level}  HP: {hp}({max_hp})  XP: {exp}/{up}  Attack: {attack}  Defense: {defense} -> {rank} {style} {status}')
   screen.clrtoeol()
+
+# Clear screen
+def clear_screen():
+  for i in range(1, 23):
+    screen.move(i, 0)
+    screen.clrtoeol()
 
 # Render screen
 def render_screen():
   render_dungeon()
   if game['player']['sensitivity']:
-    screen.clear()
+    clear_screen()
     render_dungeon()
     render_all_enemies()
   else: render_enemies()

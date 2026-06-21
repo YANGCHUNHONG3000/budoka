@@ -1,6 +1,13 @@
 # Packages
 from globals import *
 
+# Regenerate HP
+def regenerate_hp():
+  game['steps'] += 1
+  if not game['steps'] % (30-game['level']):
+    if game['player']['hp'] < game['player']['max_hp']:
+      game['player']['hp'] += 1
+
 # Move player
 def move(ch):
   # Current player position
@@ -55,7 +62,10 @@ def move(ch):
   # Update player position
   game['player']['y'] = player_y
   game['player']['x'] = player_x
-  
+
+  # HP regeneration
+  regenerate_hp()
+
   # Fog of war
   for off in [
     (0, 0),
