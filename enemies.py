@@ -22,7 +22,8 @@ def create_enemy(row, col, hp, attack, defense, level, name):
 
 # Promote to the next rank
 def promote():
-  new_belt = RANKS[str(game['player']['level']+1)]['belt']
+  max_level = min(7, game['player']['level']+1)
+  new_belt = RANKS[str(max_level)]['belt']
   if new_belt not in game['player']['belts']:
     message(f'You deserve to wear {new_belt} belt but you need to find one')
     return
@@ -30,8 +31,8 @@ def promote():
   game['player']['attack'] += 1
   game['player']['defense'] += 1
   game['player']['max_hp'] += game['player']['level'] * 2
-  if game['player']['level'] >= 8: game['player']['sensivity'] = True
-  message(f'You are now wearing {new_belt} belt')
+  if game['player']['level'] >= 7: game['player']['sensivity'] = True
+  if game['player']['level'] <= 7: message(f'You are now wearing {new_belt} belt')
 
 # Player hits enemy
 def player_hit(enemy):

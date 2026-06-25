@@ -52,7 +52,7 @@ def parse_command():
     message(f'Belts you have: {", ".join(belts)}')
   elif ch == ord('>'):
     if game['dungeon'][game['player']['y']][game['player']['x']] == STAIRS:
-      if game['level'] == max([int(i) for i in list(RANKS.keys())]):
+      if game['level'] == max([int(i) for i in list(RANKS.keys())])-1:
         message('You have reached the deepest level')
         return
       game['level'] += 1
