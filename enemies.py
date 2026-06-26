@@ -125,12 +125,14 @@ def fight():
   }
   player_y = game['player']['y']
   player_x = game['player']['x']
-  while game['player']['hp'] > 0:
-    enemy = encounter(player_y+target[dir][0], player_x+target[dir][1])
-    if enemy is not None:
-      player_hit(enemy, True)
-      if not enemy['hp']: break
-      enemy_hit(enemy, True)
-    else:
-      message('There is no enemy')
-      break
+  try:
+    while game['player']['hp'] > 0:
+      enemy = encounter(player_y+target[dir][0], player_x+target[dir][1])
+      if enemy is not None:
+        player_hit(enemy, True)
+        if not enemy['hp']: break
+        enemy_hit(enemy, True)
+      else:
+        message('There is no enemy')
+        break
+  except: pass

@@ -130,7 +130,10 @@ def blocked(row, col):
       else: return False
   
   # Blocked by dungeon
-  if game['dungeon'][row][col] in [FLOOR, DOOR, PASSAGE, STAIRS, ELIXIR]: return False
+  if game['dungeon'][row][col] in [
+    FLOOR, DOOR, PASSAGE, STAIRS, ELIXIR,
+    MAGENTA_BELT, CYAN_BELT, BLUE_BELT, GREEN_BELT, RED_BELT, BLACK_BELT
+  ]: return False
   else: return True
 
 # Entities chase player
