@@ -40,9 +40,9 @@ def render_enemies():
             else:
               if distance_to(player_y, player_x, enemy['position']['y'], enemy['position']['x']) < 2:
                 screen.addch(enemy_y, enemy_x, enemy['name'], paint(belt))
-      elif game['dungeon'][enemy_y][enemy_x] in [PASSAGE, DOOR]:
-        if distance_to(player_y, player_x, enemy['position']['y'], enemy['position']['x']) <= 1:
-          screen.addch(enemy_y, enemy_x, enemy['name'], paint(belt))
+    if game['dungeon'][enemy_y][enemy_x] in [PASSAGE, DOOR]:
+      if distance_to(player_y, player_x, enemy['position']['y'], enemy['position']['x']) <= 2:
+        screen.addch(enemy_y, enemy_x, enemy['name'], paint(belt))
 
 # Render enemies
 def render_all_enemies():
